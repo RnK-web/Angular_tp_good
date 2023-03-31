@@ -1,10 +1,8 @@
 declare var M: any;
 
 import { Component, NgModule, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TodoServiceService } from '../todo-service.service';
-import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-lists',
@@ -14,17 +12,53 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 export class TodoListsComponent implements OnInit {
   name: string;
   todoService: TodoServiceService;
+  todos: Todo[] = [];
+  loading: boolean = true;
 
   constructor(todoService: TodoServiceService) {
     this.todoService = todoService;
-
-    this.todoService.createTodo('Premier');
-    this.todoService.createTodo('Deuxieme');
-    this.todoService.createTodo('Troisieme');
   }
   createTodo(name: string) {
-    M.toast({ html: 'Tache ' + name + ' a été crée !' });
-    this.todoService.createTodo(name);
+    this.todoService.createTodo(name).subscribe((resp) => {
+      if (resp) {
+        M.toast({ html: 'Tache ' + name + ' a été crée !' });
+      } else {
+        M.toast({ html: 'Erreur serveur' });
+      }
+    });
+    this.refreshTodos();
   }
-  ngOnInit() {}
+
+  notifyUser(todo: Todo) {
+    this.todoService.updateTodo(todo).subscribe((resp) => {
+      if (resp) {
+        M.toast({ html: 'Tache ' + todo.label + ' a été mise à jour !' });
+      } else {
+        M.toast({ html: 'Erreur Serveur' });
+      }
+    });
+  }
+
+  delTodo(todo: Todo) {
+    this.todoService.deleteTodo(todo.id).subscribe((resp) => {
+      if (resp) {
+        M.toast({ html: 'Tache ' + todo.label + 'a été supprimée !' });
+      } else {
+        M.toast({ html: 'Erreur Serveur' });
+      }
+    });
+    this.refreshTodos();
+  }
+
+  refreshTodos() {
+    this.loading = true;
+    this.todoService.getTodos().subscribe((todoList) => {
+      this.todos = todoList;
+      this.loading = false;
+    });
+  }
+
+  ngOnInit() {
+    this.refreshTodos();
+  }
 }

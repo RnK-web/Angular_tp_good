@@ -1,7 +1,27 @@
-<ul>
-  <li *ngFor="let todo of this.todoService.getTodos()">
-    <app-todo-item [todo]="todo"></app-todo-item>
-  </li>
+<div class="preloader-wrapper big active" *ngIf="loading; else elseBlock">
+  <div class="spinner-layer spinner-blue">
+    <div class="circle-clipper left">
+      <div class="circle"></div>
+    </div>
+    <div class="gap-patch">
+      <div class="circle"></div>
+    </div>
+    <div class="circle-clipper right">
+      <div class="circle"></div>
+    </div>
+  </div>
+</div>
 
-  <input type="text" [(ngModel)]="name" (keyup.enter)="createTodo(name)" />
-</ul>
+<ng-template #elseBlock>
+  <ul>
+    <li *ngFor="let todo of this.todos">
+      <app-todo-item
+        [todo]="todo"
+        (todoChanges)="notifyUser($event)"
+        (todoDeleted)="delTodo($event)"
+      ></app-todo-item>
+    </li>
+
+    <input type="text" [(ngModel)]="name" (keyup.enter)="createTodo(name)" />
+  </ul>
+</ng-template>

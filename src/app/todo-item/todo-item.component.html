@@ -2,23 +2,26 @@
   <div class="col s12 m6">
     <div class="card blue-grey darken-1">
       <div class="card-content" *ngIf="!edit; else elseBlock">
-        <span
-          class="card-title"
-          [ngClass]="todo.done ? 'grey-text' : 'white-text'"
-          (click)="switchDone()"
-          >{{ todo.label }}</span
-        >
+        <div>
+          <span
+            class="card-title"
+            [ngClass]="todo.done ? 'grey-text' : 'white-text'"
+            (click)="switchDone()"
+            >{{ todo.label }}</span
+          >
+          <i class="small material-icons" (click)="editMode()">create</i>
+          <i class="small material-icons" (click)="todoDeletion()">clear</i>
+        </div>
         <span> id :{{ todo.id }}</span>
         <br />
         <span> creation date: {{ todo.creationDate | customDate: true }} </span>
-        <i class="tiny material-icons" (click)="editMode()">create</i>
       </div>
 
       <ng-template #elseBlock>
         <input
           type="text"
-          [(ngModel)]="todo.label"
-          (keyup.enter)="changeName()"
+          [(ngModel)]="newName"
+          (keyup.enter)="changeName(newName)"
         />
       </ng-template>
     </div>

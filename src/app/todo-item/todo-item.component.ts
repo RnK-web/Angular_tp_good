@@ -1,5 +1,12 @@
 declare var M: any;
-import { Component, NgModule, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  NgModule,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Todo } from '../todo';
 
 @Component({
@@ -9,14 +16,26 @@ import { Todo } from '../todo';
 })
 export class TodoItemComponent implements OnInit {
   @Input() todo: Todo;
+  @Output()
+  todoChanges = new EventEmitter<Todo>();
+
+  @Output()
+  todoDeleted = new EventEmitter<Todo>();
+
+  newName: string = '';
   edit: boolean = false;
   constructor() {}
   switchDone(): void {
     this.todo.done = !this.todo.done;
+    this.todoChanges.emit(this.todo);
   }
-  changeName(): void {
-    M.toast({ html: 'Tache ' + this.todo.label + ' a été mise à jour !' });
+  changeName(newName: string): void {
+    this.todo.label = newName;
+    this.todoChanges.emit(this.todo);
     this.edit = false;
+  }
+  todoDeletion() {
+    this.todoDeleted.emit(this.todo);
   }
   editMode(): void {
     this.edit = true;
