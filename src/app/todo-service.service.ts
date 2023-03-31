@@ -11,7 +11,7 @@ export class TodoServiceService {
   getTodos(): Observable<Todo[]> {
     return this.httpClient
       .get<TodoResponse>(
-        'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo?delay=10000'
+        'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo'
       )
       .pipe(map((todoResp) => todoResp.todos));
   }
