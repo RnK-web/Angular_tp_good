@@ -1,0 +1,14 @@
+<form #varForm="ngForm">
+  New Todo :
+  <input
+    type="text"
+    name="newTodo"
+    [(ngModel)]="newTodo"
+    #newTodo="ngModel"
+    required
+    minlength="4"
+    maxlength="20"
+    pattern="[a-zA-Z0-9 ]*"
+  />
+  <button type="submit" [disabled]="varForm.invalid">Ajouter</button>
+</form>
