@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { TodoListsComponent } from './todo-lists/todo-lists.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { CustomDatePipe } from './custom-date.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, HttpClientModule],
   declarations: [
     AppComponent,
     TodoListsComponent,

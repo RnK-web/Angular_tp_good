@@ -1,12 +1,5 @@
 declare var M: any;
-import {
-  Component,
-  NgModule,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from '../todo';
 
 @Component({

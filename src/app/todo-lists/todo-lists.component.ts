@@ -1,6 +1,6 @@
 declare var M: any;
 
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoServiceService } from '../todo-service.service';
 import { Todo } from '../todo';
 
@@ -42,7 +42,7 @@ export class TodoListsComponent implements OnInit {
   delTodo(todo: Todo) {
     this.todoService.deleteTodo(todo.id).subscribe((resp) => {
       if (resp) {
-        M.toast({ html: 'Tache ' + todo.label + 'a été supprimée !' });
+        M.toast({ html: 'Tache ' + todo.label + ' a été supprimée !' });
       } else {
         M.toast({ html: 'Erreur Serveur' });
       }
