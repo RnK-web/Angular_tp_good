@@ -1,16 +1,19 @@
-<form #varForm="ngForm">
+<form #varForm="ngForm" (ngSubmit)="onSubmit(varTodo.value)">
   New Todo :
-  <input
-    type="text"
-    name="newTodo"
-    [(ngModel)]="newTodo"
-    #varTodo="ngModel"
-    required
-    minlength="4"
-    maxlength="20"
-    pattern="[a-zA-Z0-9 ]*"
-  />
-  <div *ngIf="varTodo.invalid">
+  <div class="input-field">
+    <input
+      type="text"
+      name="newTodo"
+      [(ngModel)]="newTodo"
+      #varTodo="ngModel"
+      required
+      minlength="4"
+      maxlength="20"
+      pattern="[a-zA-Z0-9 ]*"
+      class="validate"
+    />
+  </div>
+  <div *ngIf="varTodo.invalid && varTodo.dirty">
     <div *ngIf="varTodo.errors.required">Ce champs est requis</div>
     <div *ngIf="varTodo.errors.minlength">Plus de 4 caracteres</div>
     <div *ngIf="varTodo.errors.maxlength">Moins de 20 caracteres</div>
