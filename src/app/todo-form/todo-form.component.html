@@ -4,11 +4,20 @@
     type="text"
     name="newTodo"
     [(ngModel)]="newTodo"
-    #newTodo="ngModel"
+    #varTodo="ngModel"
     required
     minlength="4"
     maxlength="20"
     pattern="[a-zA-Z0-9 ]*"
   />
+  <div *ngIf="varTodo.invalid">
+    <div *ngIf="varTodo.errors.required">Ce champs est requis</div>
+    <div *ngIf="varTodo.errors.minlength">Plus de 4 caracteres</div>
+    <div *ngIf="varTodo.errors.maxlength">Moins de 20 caracteres</div>
+    <div *ngIf="varTodo.errors.pattern">
+      Lettres, chiffres et espaces ! Rien d'autre
+    </div>
+  </div>
+
   <button type="submit" [disabled]="varForm.invalid">Ajouter</button>
 </form>
