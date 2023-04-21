@@ -14,13 +14,14 @@
 
 <ng-template #elseBlock>
   <ul>
-    <li *ngFor="let todo of this.todos">
+    <li *ngFor="let todo of this.todos.slice(0, 4)">
       <app-todo-item
         [todo]="todo"
         (todoChanges)="notifyUser($event)"
         (todoDeleted)="delTodo($event)"
       ></app-todo-item>
     </li>
+    Add a todo :
     <app-todo-form (createTodo)="createTodo($event)"></app-todo-form>
   </ul>
 </ng-template>

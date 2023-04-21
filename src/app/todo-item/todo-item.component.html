@@ -18,11 +18,7 @@
       </div>
 
       <ng-template #elseBlock>
-        <input
-          type="text"
-          [(ngModel)]="newName"
-          (keyup.enter)="changeName(newName)"
-        />
+        <app-todo-form (createTodo)="changeName($event)"></app-todo-form>
       </ng-template>
     </div>
   </div>
