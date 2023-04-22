@@ -8,18 +8,22 @@ export class TodoServiceService {
   todos: Todo[] = [];
   constructor(private httpClient: HttpClient) {}
 
-  getTodos(): Observable<Todo[]> {
+  getTodos(username: string): Observable<Todo[]> {
     return this.httpClient
       .get<TodoResponse>(
-        'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo?delay=1000'
+        'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo/' +
+          username +
+          '/todos?delay=1000'
       )
       .pipe(map((todoResp) => todoResp.todos));
   }
-  createTodo(label: string): Observable<boolean> {
+  createTodo(username: string, label: string): Observable<boolean> {
     let todo: CreateTodo = { label: label };
     return this.httpClient
       .post(
-        'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo',
+        'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo/' +
+          username +
+          '/todos',
         todo
       )
       .pipe(
@@ -27,19 +31,23 @@ export class TodoServiceService {
         catchError((err) => of(false))
       );
   }
-  updateTodo(todo: Todo): Observable<boolean> {
+  updateTodo(username: string, todo: Todo): Observable<boolean> {
     let newTodo: UpdateTodo = { label: todo.label, done: todo.done };
     let url: string =
       'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo/' +
+      username +
+      '/todos/' +
       todo.id;
     return this.httpClient.put(url, newTodo).pipe(
       map((resp) => true),
       catchError((err) => of(false))
     );
   }
-  deleteTodo(id: string): Observable<boolean> {
+  deleteTodo(username: string, id: string): Observable<boolean> {
     let url: string =
       'https://europe-west1-cours-angular-263913.cloudfunctions.net/todoapp/todo/' +
+      username +
+      '/todos/' +
       id;
     return this.httpClient.delete(url).pipe(
       map((resp) => true),

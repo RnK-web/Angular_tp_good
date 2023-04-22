@@ -8,14 +8,17 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { CustomDatePipe } from './custom-date.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
   declarations: [
     AppComponent,
     TodoListsComponent,
     TodoItemComponent,
     TodoFormComponent,
+    LoginComponent,
     CustomDatePipe,
   ],
   bootstrap: [AppComponent],

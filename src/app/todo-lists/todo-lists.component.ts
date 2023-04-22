@@ -3,6 +3,7 @@ declare var M: any;
 import { Component, OnInit } from '@angular/core';
 import { TodoServiceService } from '../todo-service.service';
 import { Todo } from '../todo';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todo-lists',
@@ -14,23 +15,24 @@ export class TodoListsComponent implements OnInit {
   todoService: TodoServiceService;
   todos: Todo[] = [];
   loading: boolean = true;
+  username: string;
 
-  constructor(todoService: TodoServiceService) {
+  constructor(todoService: TodoServiceService, private route: ActivatedRoute) {
     this.todoService = todoService;
   }
   createTodo(name: string) {
-    this.todoService.createTodo(name).subscribe((resp) => {
+    this.todoService.createTodo(this.username, name).subscribe((resp) => {
       if (resp) {
         M.toast({ html: 'Tache ' + name + ' a été crée !' });
+        this.refreshTodos();
       } else {
         M.toast({ html: 'Erreur serveur' });
       }
     });
-    this.refreshTodos();
   }
 
   notifyUser(todo: Todo) {
-    this.todoService.updateTodo(todo).subscribe((resp) => {
+    this.todoService.updateTodo(this.username, todo).subscribe((resp) => {
       if (resp) {
         M.toast({ html: 'Tache ' + todo.label + ' a été mise à jour !' });
       } else {
@@ -40,25 +42,26 @@ export class TodoListsComponent implements OnInit {
   }
 
   delTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo.id).subscribe((resp) => {
+    this.todoService.deleteTodo(this.username, todo.id).subscribe((resp) => {
       if (resp) {
         M.toast({ html: 'Tache ' + todo.label + ' a été supprimée !' });
+        this.refreshTodos();
       } else {
         M.toast({ html: 'Erreur Serveur' });
       }
     });
-    this.refreshTodos();
   }
 
   refreshTodos() {
     this.loading = true;
-    this.todoService.getTodos().subscribe((todoList) => {
+    this.todoService.getTodos(this.username).subscribe((todoList) => {
       this.todos = todoList;
       this.loading = false;
     });
   }
 
   ngOnInit() {
+    this.username = this.route.snapshot.paramMap.get('username');
     this.refreshTodos();
   }
 }

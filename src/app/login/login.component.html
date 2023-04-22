@@ -1,0 +1,25 @@
+<form #varForm="ngForm" (ngSubmit)="onConnection(userName.value)">
+  <div class="input-field">
+    <input
+      type="text"
+      name="user"
+      [(ngModel)]="user"
+      #userName="ngModel"
+      required
+      minlength="3"
+      maxlength="20"
+      pattern="[a-zA-Z0-9]*"
+      class="validate"
+    />
+  </div>
+  <div *ngIf="userName.invalid && userName.dirty">
+    <div *ngIf="userName.errors.required">Ce champs est requis</div>
+    <div *ngIf="userName.errors.minlength">Plus de 3 caracteres</div>
+    <div *ngIf="userName.errors.maxlength">Moins de 20 caracteres</div>
+    <div *ngIf="userName.errors.pattern">
+      Lettres et chiffres ! Rien d'autre
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="varForm.invalid">Connection</button>
+</form>
